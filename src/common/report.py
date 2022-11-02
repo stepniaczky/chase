@@ -33,5 +33,12 @@ def to_json(**kwargs):
         return
 
     file_open_mode = 'a' if os.path.exists(JSON_FILE_PATH) else 'w'
-    with open(JSON_FILE_PATH, file_open_mode) as f:
-        json.dump(kwargs, f)
+    obj_arr = []
+
+    if file_open_mode == 'a':
+        with open(JSON_FILE_PATH) as f:
+            obj_arr = json.load(f)
+
+    with open(JSON_FILE_PATH, 'w') as f:
+        obj_arr.append(kwargs)
+        json.dump(obj_arr, f, indent=2, separators=(',', ': '))
