@@ -14,7 +14,7 @@ def config(json_file_path: str, csv_file_path: str) -> None:
     JSON_FILE_PATH = json_file_path
 
 
-def to_csv(**kwargs):
+def to_csv(**kwargs) -> None:
     if CSV_FILE_PATH is None:
         return
 
@@ -28,7 +28,7 @@ def to_csv(**kwargs):
         writer.writerow(kwargs)
 
 
-def to_json(**kwargs):
+def to_json(**kwargs) -> None:
     if JSON_FILE_PATH is None:
         return
 
