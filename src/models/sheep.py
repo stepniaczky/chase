@@ -3,11 +3,12 @@ import random
 from dataclasses import dataclass, field
 
 from src.models.point import Point
-from src.utils.constans import INIT_POS_LIMIT, SHEEP_MOVE_DIST
+from src.common import INIT_POS_LIMIT, SHEEP_MOVE_DIST
 
 
 @dataclass
 class Sheep:
+    id: int
     pos: Point = field(init=False)
     move_dist: float = field(init=False, default=SHEEP_MOVE_DIST)
     is_alive: bool = field(init=False, default=True)
