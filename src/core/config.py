@@ -1,57 +1,33 @@
-import os
+import argparse
 
-from dataclasses import dataclass, field
-from configparser import ConfigParser
+from core import Settings
+from common import reports
+
+proper_keys = {
+    'config': 'CONFIG_FILE_PATH',
+    'dir': 'SUBDIRECTORY_PATH',
+    'log': 'LOGGING_TYPE',
+    'rounds': 'MAX_NUMBER_OF_ROUNDS',
+    'sheep': 'SIZE_OF_FLOCK',
+    'wait': 'WAIT_FOR_USER_INPUT'
+}
 
 
-@dataclass
-class Settings:
-    MAX_NUMBER_OF_ROUNDS: int = 50
-    SIZE_OF_FLOCK: int = 15
+def config(args: argparse.Namespace = None) -> Settings:
 
-    INIT_POS_LIMIT: float = field(default=10.0, init=False)
-    SHEEP_MOVE_DIST: float = field(default=0.5, init=False)
-    WOLF_MOVE_DIST: float = field(default=1.0, init=False)
+    settings_params = vars(args)
+    settings_params = {proper_keys[key]: value for key,
+                       value in settings_params.items() if value is not None}
 
-    WOLF_INIT_POS_X: float = field(default=0.000, init=False)
-    WOLF_INIT_POS_Y: float = field(default=0.000, init=False)
+    for key in settings_params:
+        k = settings_params[key]
+        if isinstance(k, int) and k is not True and k is not False:
+            if settings_params[key] <= 0:
+                raise AttributeError(f'Value of {key} must be positive!')
 
-    CONFIG_FILE_PATH: str = 'NONE'
-    SUBDIRECTORY_PATH: str = field(default='.')
-    LOGGING_TYPE: str = 'NONE'
+    if 'LOGGING_TYPE' in settings_params:
+        settings_params['LOGGING_TYPE'] = settings_params['LOGGING_TYPE'].upper()
+        if settings_params['LOGGING_TYPE'] not in ['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL']:
+            raise AttributeError('Logging type must be one of: "DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL".')
 
-    WAIT_FOR_USER_INPUT: bool = False
-
-    def __post_init__(self):
-        if self.CONFIG_FILE_PATH != 'NONE':
-            self.load_config_file()
-
-        if self.SUBDIRECTORY_PATH != '.':
-            if os.path.exists(self.SUBDIRECTORY_PATH) is False:
-                os.makedirs(self.SUBDIRECTORY_PATH)
-
-    def load_config_file(self):
-        config = ConfigParser()
-        config.read(self.CONFIG_FILE_PATH)
-
-        try:
-            if config == []:
-                raise FileNotFoundError
-
-            for category in config.values():
-                for value in category.values():
-                    if value <= 0:
-                        raise AttributeError
-
-            self.INIT_POS_LIMIT = float(config['Terrain']['InitPosLimit'])
-            self.SHEEP_MOVE_DIST = float(config['Movement']['SheepMoveDist'])
-            self.WOLF_MOVE_DIST = float(config['Movement']['WolfMoveDist'])
-
-        except KeyError:
-            print('Config file is missing some parameters!')
-        except ValueError:
-            print('All values in config file must be numbers!')
-        except FileNotFoundError:
-            print('Config file not found!')
-        except AttributeError:
-            print('All values in config file must be positive!')
+    return Settings(**settings_params)

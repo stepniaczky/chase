@@ -1,7 +1,0 @@
-MAX_NUMBER_OF_ROUNDS: int = 50
-SIZE_OF_FLOCK: int = 15
-INIT_POS_LIMIT: float = 10.0
-SHEEP_MOVE_DIST: float = 0.5
-WOLF_MOVE_DIST: float = 1.0
-WOLF_INIT_POS_X: float = 0.000
-WOLF_INIT_POS_Y: float = 0.000
