@@ -4,9 +4,9 @@ import logging
 from typing import List
 from dataclasses import dataclass, field
 
-from models.point import Point
-from models.sheep import Sheep
-from core.settings import Settings
+from chase.models.point import Point
+from chase.models.sheep import Sheep
+from chase.core.settings import Settings
 
 logger = logging.getLogger(__name__)
 

@@ -3,8 +3,8 @@ import logging
 
 from dataclasses import dataclass, field
 
-from models.point import Point
-from core.settings import Settings
+from chase.models.point import Point
+from chase.core.settings import Settings
 
 logger = logging.getLogger(__name__)
 

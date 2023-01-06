@@ -1,7 +1,7 @@
 import argparse
 
-from core import Settings
-from common import reports
+from chase.core import Settings
+from chase.common import reports
 
 proper_keys = {
     'config': 'CONFIG_FILE_PATH',

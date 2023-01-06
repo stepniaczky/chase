@@ -3,7 +3,7 @@ import csv
 import json
 import logging
 
-from core import Settings
+from chase.core import Settings
 
 GLOBALS = {
     'CSV_FILE_PATH': None,
