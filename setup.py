@@ -17,7 +17,7 @@ setup(
     keywords="example documentation tutorial",
     url="https://github.com/stepniaczky/chase",
     packages=['chase'],
-    long_description=read('README'),
+    long_description=read('README.md'),
     classifiers=[
         'Development Status:: 5 - Production/Stable',
         'Intended Audience :: Developers',
